@@ -66,7 +66,7 @@ class Main extends \pocketmine\plugin\PluginBase implements \pocketmine\event\Li
         $c = new \GoUp\Config($this->getDataFolder() . "/arena.yml", \GoUp\Config::YAML);
         if (isset($this->test[$e->getPlayer()->getName()])) {
             $e->getPlayer()->setGamemode(3);
-            $e->getPlayer()->teleport($c->get('x'), $c->get(y), $c->get(z));
+            $e->getPlayer()->teleport($c->get('x'), $c->get('y'), $c->get('z'));
             return;
         }
         $e->getPlayer()->setGamemode(0);
@@ -204,16 +204,16 @@ class Main extends \pocketmine\plugin\PluginBase implements \pocketmine\event\Li
                         $lvl2 = $this->getServer()->getLevelByName($c->get('world'));
                         switch ($ci) {
                             case 0:
-                                $pos = new \pocketmine\level\Position($c->get('x'), $c->get(y), $c->get(z), $lvl2);
+                                $pos = new \pocketmine\level\Position($c->get('x'), $c->get('y'), $c->get('z'), $lvl2);
                                 break;
                             case 1:
-                                $pos = new \pocketmine\level\Position($c->get('x') + 1, $c->get(y), $c->get(z) + 1, $lvl2);
+                                $pos = new \pocketmine\level\Position($c->get('x') + 1, $c->get('y'), $c->get('z') + 1, $lvl2);
                                 break;
                             case 2:
-                                $pos = new \pocketmine\level\Position($c->get('x') + 2, $c->get(y), $c->get(z) + 2, $lvl2);
+                                $pos = new \pocketmine\level\Position($c->get('x') + 2, $c->get('y'), $c->get('z') + 2, $lvl2);
                                 break;
                             case 3:
-                                $pos = new \pocketmine\level\Position($c->get('x') + 3, $c->get(y), $c->get(z) + 3, $lvl2);
+                                $pos = new \pocketmine\level\Position($c->get('x') + 3, $c->get('y'), $c->get('z') + 3, $lvl2);
                                 break;
                                 //next time!
                         }
