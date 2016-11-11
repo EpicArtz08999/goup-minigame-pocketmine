@@ -1,0 +1,5 @@
+x: 0 #x coordinate for tp player to game
+y: 0 #y coordinate for tp player to game
+z: 0 #z coordinate for tp player to game
+world: #world name of game
+WorldRadius: #radius guard of the world game
