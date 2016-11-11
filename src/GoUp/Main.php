@@ -36,6 +36,7 @@ class Main extends PluginBase implements Listener {
   public $start_count = 0; 
   
 public function onEnable(){
+$c = new Config($this->getDataFolder() . "/arena.yml", Config::YAML);
 $this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask(array($this, "timer")), 20); 
 $this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask(array($this, "overTimer")), 20); 
 $this->getServer()->getPluginManager()->registerEvents($this, $this); 
@@ -67,9 +68,10 @@ public function joinServer(PlayerJoinEvent $e){
 	}
 
 public function onRespawn(PlayerRespawnEvent $e){
+$c = new Config($this->getDataFolder() . "/arena.yml", Config::YAML);
 if(isset($this->test[$e->getPlayer()->getName()])){
 	$e->getPlayer()->setGamemode(3); 
-  $e->getPlayer()->teleport(100, 10, 100); 
+  $e->getPlayer()->teleport($c->get('x'), $c->get(y), $c->get(z)); 
 
 return; 
 }
@@ -159,6 +161,7 @@ public function overTimer(){
 	}
 
 public function timer(){
+$c = new Config($this->getDataFolder() . "/arena.yml", Config::YAML);
 if($this->start_state){
 $this->time--; 
 switch($this->time){
@@ -197,27 +200,27 @@ $this->over_state = true;
 $this->overTimer(); 
 $this->open_arenas = 0; 
 $this->start_time = 120; 
-$msg = "§6Игра начинается!"; 
+$msg = "§6Game starting!"; 
 $this->start_count = count($this->players); 
 $ci = 0; 
 foreach($this->players as $n => $p){
 	foreach($this->items as $id => $name){
 		$p->getInventory()->addItem(Item::get($id, 0, 1)->setCustomName("§r". $name)); 
 		}
-		$lvl2 = $this->getServer()->getLevelByName("game"); 
+		$lvl2 = $this->getServer()->getLevelByName($c->get('world')); 
 		switch($ci){
 			case 0: 
-			$pos = new Position(100, 10, 100, $lvl2); 
+			$pos = new Position($c->get('x'), $c->get(y), $c->get(z), $lvl2); 
 			break; 
 			case 1: 
-			$pos = new Position(94, 8, 99, $lvl2); 
+			$pos = new Position($c->get('x')+1, $c->get(y), $c->get(z)+1, $lvl2); 
 			break; 
 			case 2: 
-			$pos = new Position(94, 8, 93, $lvl2); 
+			$pos = new Position($c->get('x')+2, $c->get(y), $c->get(z)+2, $lvl2); 
 			break; 
 			case 3: 
-			$pos = new Position(100, 8, 93, $lvl2); 
-			break; //можно настроить больше!
+			$pos = new Position($c->get('x')+3, $c->get(y), $c->get(z)+3, $lvl2); 
+			break; //next time!
 			}
 		$ci++; 
 		//$pos = new Vector3(100, 10, 100); 
@@ -235,7 +238,7 @@ foreach($this->players as $n => $p){
 		$p = $e->getPlayer(); 
 		if(true){
 			$l = $p->getLevel()->getSafeSpawn(); 
-			if($p->y > 15){
+			if($p->y > $c->get('WorldRadius')){
 				$e->setCancelled(); 
 				$p->sendMessage("§6World is small. :)"); 
 			}
